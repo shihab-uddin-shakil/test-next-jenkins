@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  test1-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: test1/app
+    container_name: test1
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/frontend
+    networks:
+        - app-network
+    ports:
+        - 3050:3000
+
+#Docker Networks
+# docker network create app-network
+networks:
+  app-network:
+    driver: bridge
+    external: true
+#Volumes
+volumes:
+  dbdata:
+    driver: local
